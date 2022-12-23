@@ -1,0 +1,10 @@
+Entities:
+--------
+Dataset --> Contains a list of documents
+Document --> text
+Trie --> Node {
+             boolean isWord;
+             List<Integer> documentIds;
+         }
+
+apple is a fruit ---filter words--> [apple, fruit]

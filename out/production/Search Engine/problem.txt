@@ -1,0 +1,60 @@
+In-memory Search engine
+
+Your organization has started a new tech blog with interesting tech stories
+ and you’re responsible for designing and implementing an in-memory search engine,
+  supporting the search functionality on the blog content.
+It should be possible to create a dataset in the search engine.
+It should be possible to insert documents into a given dataset.
+ Each document is simply a piece of text.
+It should be possible to search through documents for a search pattern in a given dataset.
+ A search pattern could have one or more words.
+  When there are more words, all the words in the search pattern
+should be present anywhere in the document to match, irrespective of their order.
+ Assume that search is case-insensitive.
+It should be possible to configure each dataset on how to order the search results.
+ (Note for the interviewer: For example, one may want to configure a dataset to give higher rank to the documents with more number of occurrences of search term or latest)
+It should be possible to print search results of a search.
+It should be possible to print info of a given dataset - configuration and the document count.
+It should be possible to delete a dataset. This should delete configuration of it along wit
+
+Examples
+--------------
+Search term: apple
+
+Doc1: apple is a fruit
+Doc2: apple apple come on.
+Doc3: oranges are sour
+Doc4: apple is sweet
+
+ADD_DOCUMENT fruits "apple is a fruit"
+SEARCH fruits apple
+
+Search results (number of occurrences of search term ranker)
+[Doc2, Doc1, Doc4] or [Doc2, Doc4, Doc1]
+
+Search results (recency ranker)
+Doc 4, Doc2, Doc1
+
+Entities:
+--------
+Dataset --> Contains a list of documents
+Document --> text
+DocumentMap <Id, Document>
+
+apple is a fruit --> [apple, fruit] #1
+
+SearchEngineService --> trie
+apple ->
+    Node {
+        boolean isWord;
+        List<Integer> documentIds;
+    }
+
+#1
+
+Processors:
+    --> RecentlyCreatedProcessor --> <documents> --> ordered (priority) of documents #1 -> TreeMap
+    --> OccurrenceProcessor -->  #1 -> MaxHeap/TreeMap
+
+ToDo:
+1. check for duplicate dataset creation
